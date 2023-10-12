@@ -137,8 +137,21 @@ class Scoreboard:
     def __init__(self, scoreboard = {}):
         self.scoreboard = scoreboard
     
-    def add_to_scoreboard(self):
-        self.scoreboard
+    def add_to_scoreboard(self, key, value):
+        if self.scoreboard.get(key) == None:
+            self.scoreboard[key] = value
+        elif self.scoreboard.get(key) < value:
+            self.scoreboard[key] = value
+        else:
+            pass
+         
+    
+    def display(self):
+        print("SCOREBOARD\n")
+        for key, value in self.scoreboard.items():
+            print("Player: {0} | Time: {1} ".format(key , value))
+    
+
 
 class Player:
     def __init__(self, name, best_time = 0, fails = 0):
@@ -148,52 +161,63 @@ class Player:
 
     def set_best_time(self, new_time):
         self.best_time = new_time
-
-    def add_fail(self):
-        self.fails = self.fails + 1
-    
+  
     def get_name(self):
         return self.name
 # FUNCTION + CLASS
-        
+
+
+while(True):
 # STARTING SCREEN            
-print("=========================")
-print("Welcome to Speedrun Math!")
-print("=========================")
+    print("=========================")
+    print("Welcome to Speedrun Math!")
+    print("=========================")
 
-name = input("Please enter your name: ")
-player = Player(name)
+    name = input("Please enter your name: ")
+    player = Player(name)
 
-print("You will be timed for the next 10 math questions.")
-print("Do not miss a single question!")
-print("Good luck...")
-input("\nPress 'Enter'to begin: ")
-# STARTING SCREEN
+    print("You will be timed for the next 10 math questions.")
+    print("Do not miss a single question!")
+    print("Good luck...")
+    input("\nPress 'Enter' to begin: ")
+    # STARTING SCREEN
 
-# GAME 
-num = 1
-while(num < 11):
-    start = time.time()
-    for i in range(1,6):
-        print("")
-        if(question(i, num) == 1):
-            num = num + 1
-            print("Correct!")
-            print("==================")
-        else:
-            print("\nYOU FAILED!")
+    # GAME 
+    fail = False
+    num = 1
+    scoreboard = Scoreboard()
+    while(num < 11):
 
-            break
-        print("")
-        if(question(i, num) == 1):
-            num = num + 1
-            print("Correct!")
-            print("==================")
-        else:
-            print("\nYOU FAILED!")
-            break
+        start = time.time()
+
+        for i in range(1,6):
+            print("")
+            if(question(i, num) == 1):
+                num = num + 1
+                print("Correct!")
+                print("==================")
+            else:
+                print("\nYOU FAILED!")
+                fail = True
+                break
+            print("")
+            if(question(i, num) == 1):
+                num = num + 1
+                print("Correct!")
+                print("==================")
+            else:
+                print("\nYOU FAILED!")
+                fail = True
+                break
+        break
+
     end = time.time()
 
-    print("\nYou elapsed: " + str(end - start) + " seconds!")
-    break
-
+    if fail == False:
+        print("\nYou elapsed: " + str(end - start) + " seconds!\n")
+        scoreboard.add_to_scoreboard(name, end - start)
+       
+    cont = input('\nPlay again? Enter Q or q to quit: ')
+    scoreboard.display()
+    if cont == 'Q' or cont == 'q':
+        break
