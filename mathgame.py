@@ -147,17 +147,19 @@ class Scoreboard:
          
     
     def display(self):
-        print("SCOREBOARD\n")
+        print("\n========================")
+        print("      |SCOREBOARD|      ")
+        print("========================")
         for key, value in self.scoreboard.items():
             print("Player: {0} | Time: {1} ".format(key , value))
     
 
 
 class Player:
-    def __init__(self, name, best_time = 0, fails = 0):
+    def __init__(self, name, best_time = 0):
         self.name = name
         self.best_time = best_time
-        self.fails = fails
+
 
     def set_best_time(self, new_time):
         self.best_time = new_time
@@ -173,10 +175,10 @@ while(True):
     print("Welcome to Speedrun Math!")
     print("=========================")
 
-    name = input("Please enter your name: ")
+    name = input("\nPlease enter your name: ")
     player = Player(name)
 
-    print("You will be timed for the next 10 math questions.")
+    print("\nYou will be timed for the next 10 math questions.")
     print("Do not miss a single question!")
     print("Good luck...")
     input("\nPress 'Enter' to begin: ")
@@ -197,6 +199,8 @@ while(True):
                 print("Correct!")
                 print("==================")
             else:
+                print("Wrong!")
+                print("==================")
                 print("\nYOU FAILED!")
                 fail = True
                 break
@@ -206,6 +210,8 @@ while(True):
                 print("Correct!")
                 print("==================")
             else:
+                print("Wrong!")
+                print("==================")
                 print("\nYOU FAILED!")
                 fail = True
                 break
@@ -216,8 +222,7 @@ while(True):
     if fail == False:
         print("\nYou elapsed: " + str(end - start) + " seconds!\n")
         scoreboard.add_to_scoreboard(name, end - start)
-       
-    cont = input('\nPlay again? Enter Q or q to quit: ')
     scoreboard.display()
+    cont = input('\nPlay again? Enter Q or q to quit: ')
     if cont == 'Q' or cont == 'q':
         break
